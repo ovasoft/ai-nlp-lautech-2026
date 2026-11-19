@@ -1,0 +1,120 @@
+{
+  "event": {
+    "shortName": "AI & NLP Workshop @ LAUTECH",
+    "title": "Advancing African Research in AI and Natural Language Processing",
+    "subtitle": "Communicating African progress in AI and NLP research to the world's leading venues.",
+    "dates": "17–18 December 2026",
+    "startDate": "2026-12-17",
+    "endDate": "2026-12-18",
+    "host": "Ladoke Akintola University of Technology (LAUTECH)",
+    "city": "Ogbomoso, Oyo State, Nigeria",
+    "venue": "",
+    "format": "Talks, panels, oral sessions and interest groups",
+    "goal": "Five African institutions accepted to top AI and NLP conference main tracks in 2027, with work led from Africa.",
+    "organiser": "Victor A. Omolaoye (Hasso Plattner Institute), with LAUTECH",
+    "contactEmail": "",
+    "attendance": "",
+    "timezoneNote": "Times are West Africa Time (WAT). Programme and speakers are provisional."
+  },
+
+  "links": {
+    "talkSubmission": "",
+    "registration": ""
+  },
+
+  "deadlines": {
+    "talkSubmission": "",
+    "registration": ""
+  },
+
+  "about": [
+    {
+      "title": "Artificial intelligence",
+      "text": "Computer systems that recognise images, make predictions and reason. Most modern AI is machine learning: systems learn patterns from data rather than following hand-written rules."
+    },
+    {
+      "title": "Natural language processing",
+      "text": "The branch of AI that works with human language: translation, speech recognition, search and large language models. Africa has more than 2,000 languages, and most have little digital data or tooling."
+    },
+    {
+      "title": "Where research is judged",
+      "text": "New results appear mainly at peer-reviewed conferences: NeurIPS, ICML and ICLR for machine learning; ACL, EMNLP and NAACL for NLP. Main tracks typically accept around one in four or five submissions."
+    }
+  ],
+
+  "stats": [
+    { "value": "0.19%", "text": "of authors at five major NLP conferences in 2018 had African affiliations (5 of 2,965)." },
+    { "value": "3.7%", "text": "of ACL Anthology papers to 2022 came from Africa, South America and South-East Asia combined." },
+    { "value": "500+", "text": "languages in Nigeria alone, most with little digital data. African researchers are best placed to close that gap." }
+  ],
+  "statsSource": "Sources: Ezeani et al., 2020; Rungta et al., EMNLP 2022.",
+
+  "callForTalks": {
+    "heading": "PhD students: present your research",
+    "intro": "Ten-minute talks in two sessions. Work in progress gets structured feedback from the room to strengthen it for ACL-family venues.",
+    "sessions": [
+      { "title": "Session 1: Published work", "text": "Six 10-minute talks on accepted or published papers. Share what you found and what it took to get there." },
+      { "title": "Session 2: Work in progress", "text": "Five 10-minute talks on ongoing work with initial results, each followed by 5 minutes of audience feedback." }
+    ]
+  },
+
+  "outputs": [
+    { "title": "A baseline", "text": "An EMNLP 2026 affiliation count and survey results." },
+    { "title": "A promotion proposal", "text": "How top conference papers should count." },
+    { "title": "Paper teams", "text": "Formed around shared interests, targeting May 2027." },
+    { "title": "Compute commitments", "text": "Named sources and allocation rules." },
+    { "title": "A review group", "text": "Meets monthly to read drafts and practise reviewing." }
+  ],
+
+  "speakers": [
+    { "name": "Jan Buys", "affiliation": "", "role": "Keynote", "photo": "" },
+    { "name": "Prof. Gerard de Melo", "affiliation": "Hasso Plattner Institute", "role": "Invited talk", "photo": "" },
+    { "name": "Prof. Justice", "affiliation": "LAUTECH", "role": "Panel 1 moderator", "photo": "" },
+    { "name": "Prof. Gambo", "affiliation": "Obafemi Awolowo University", "role": "Panel 1", "photo": "" },
+    { "name": "Kyosuke Morita", "affiliation": "Lloyds Bank", "role": "Talk: AI and NLP in and for business", "photo": "" },
+    { "name": "Konstantin", "affiliation": "Hasso Plattner Institute", "role": "Panel 2 and talk", "photo": "" },
+    { "name": "Babajide", "affiliation": "", "role": "Talk: anatomy of an accepted paper", "photo": "" },
+    { "name": "Victor", "affiliation": "Mila", "role": "Panels 2 and 3", "photo": "" },
+    { "name": "Utman", "affiliation": "", "role": "Panel 3", "photo": "" }
+  ],
+
+  "programme": [
+    {
+      "label": "Day 1",
+      "date": "Thursday 17 December",
+      "title": "What is holding us back",
+      "sessions": [
+        { "time": "08:30", "title": "Registration", "who": "Organising team", "tag": "Arrival" },
+        { "time": "09:00", "title": "Opening, goals and where we stand", "who": "Prof. Justice or LAUTECH leadership; Victor A. Omolaoye", "tag": "Opening" },
+        { "time": "09:20", "title": "Keynote: What a main-track paper requires", "who": "Jan Buys", "tag": "Keynote" },
+        { "time": "09:40", "title": "Oral session 1: Published work", "who": "Six 10-minute talks by PhD students", "tag": "Oral" },
+        { "time": "10:40", "title": "Break", "type": "break" },
+        { "time": "11:00", "title": "Invited talk 1: AI and NLP: overview, engineering and technicalities", "who": "Prof. Gerard de Melo", "tag": "Invited" },
+        { "time": "11:20", "title": "Panel 1: What counts for promotion?", "who": "Prof. Justice (moderator); Prof. Gambo; further panellists", "tag": "Panel" },
+        { "time": "11:40", "title": "Oral session 2: Work in progress", "who": "Five 10-minute talks, each with 5 minutes of audience feedback", "tag": "Oral" },
+        { "time": "13:00", "title": "Lunch", "type": "break" },
+        { "time": "14:00", "title": "Panel 2: The research tripod: compute, skill or interest, which leg gives way first?", "who": "Konstantin; Victor (Mila); Nigerian lecturer", "tag": "Panel" },
+        { "time": "14:20", "title": "Invited talk 2: AI and NLP: people, their culture and values", "who": "Student of Prof. Justice", "tag": "Invited" },
+        { "time": "14:40", "title": "Break", "type": "break" },
+        { "time": "14:50", "title": "AI and NLP in and for business", "who": "Kyosuke Morita, Lloyds Bank", "tag": "Talk" },
+        { "time": "15:10", "title": "AI and NLP research: overcoming the data-resource and compute dilemma", "who": "Konstantin", "tag": "Talk" },
+        { "time": "15:30", "title": "Day 1 synthesis and call for project ideas", "who": "Organising team · ideas due by 20:00", "tag": "Plenary" }
+      ]
+    },
+    {
+      "label": "Day 2",
+      "date": "Friday 18 December",
+      "title": "From ideas to submissions",
+      "sessions": [
+        { "time": "09:00", "title": "Anatomy of an accepted paper", "who": "Babajide", "tag": "Talk" },
+        { "time": "09:20", "title": "Panel 3: Getting through the review process", "who": "Victor (Mila); Utman; students of Prof. Justice and Prof. Gambo", "tag": "Panel" },
+        { "time": "09:40", "title": "Interest groups: cluster by shared research interest and form paper teams", "who": "All participants · each team drafts a one-page plan", "tag": "Groups" },
+        { "time": "11:20", "title": "Break", "type": "break" },
+        { "time": "11:35", "title": "Team pitches", "who": "Three-minute pitches with feedback from the room", "tag": "Pitches" },
+        { "time": "12:15", "title": "Commitments: each owner states what and by when", "who": "Victor A. Omolaoye; LAUTECH lead", "tag": "Plenary" },
+        { "time": "12:35", "title": "Reflection and close", "who": "Organising team", "tag": "Close" },
+        { "time": "12:50", "title": "End of workshop", "type": "break" }
+      ]
+    }
+  ]
+}

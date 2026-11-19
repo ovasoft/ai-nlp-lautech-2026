@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Advancing African Research in AI and NLP</title>
+  <meta name="description" content="A two-day workshop at LAUTECH, Ogbomoso, on advancing African research in AI and natural language processing.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="hero">
+    <nav class="nav wrap" aria-label="Main">
+      <a class="brand" href="#top" data-bind="event.shortName">AI &amp; NLP Workshop</a>
+      <div class="nav-links">
+        <a href="#about">About</a>
+        <a href="#programme">Programme</a>
+        <a href="#speakers">Speakers</a>
+        <a href="#call">Call for talks</a>
+        <a href="#venue">Venue</a>
+      </div>
+    </nav>
+
+    <div id="top" class="wrap hero-body">
+      <p class="eyebrow eyebrow-accent"><span data-bind="event.dates"></span> · <span data-bind="event.city"></span></p>
+      <h1 data-bind="event.title">Advancing African Research in AI and Natural Language Processing</h1>
+      <p class="lede" data-bind="event.subtitle"></p>
+      <div class="actions">
+        <a class="btn btn-accent" data-link="talkSubmission" data-label="Submit a talk" href="#call">Submit a talk</a>
+        <a class="btn btn-ghost" href="#programme">View programme</a>
+      </div>
+      <dl class="facts">
+        <div><dt>Dates</dt><dd data-bind="event.dates"></dd></div>
+        <div><dt>Host</dt><dd data-bind="event.host"></dd></div>
+        <div><dt>Format</dt><dd data-bind="event.format"></dd></div>
+      </dl>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="goal" aria-labelledby="goal-h">
+      <div class="wrap goal-inner">
+        <h2 id="goal-h">Our goal</h2>
+        <p data-bind="event.goal"></p>
+      </div>
+    </section>
+
+    <section id="about" class="wrap section" aria-labelledby="about-h">
+      <p class="eyebrow">About</p>
+      <h2 id="about-h" class="h2">AI and NLP in brief</h2>
+      <div class="cards" data-list="about"></div>
+    </section>
+
+    <section class="wrap section section-tight" aria-labelledby="why-h">
+      <h2 id="why-h" class="h3">Why this workshop</h2>
+      <div class="stats" data-list="stats"></div>
+      <p class="small muted" data-bind="statsSource"></p>
+    </section>
+
+    <section id="programme" class="band" aria-labelledby="prog-h">
+      <div class="wrap section">
+        <p class="eyebrow">Programme</p>
+        <div class="prog-head">
+          <h2 id="prog-h" class="h2">Two days, from ideas to submissions</h2>
+          <div class="tabs" role="tablist" aria-label="Choose a day" data-tabs></div>
+        </div>
+        <div data-panels></div>
+        <p class="small muted" data-bind="event.timezoneNote"></p>
+      </div>
+    </section>
+
+    <section id="speakers" class="wrap section" aria-labelledby="spk-h">
+      <p class="eyebrow">Speakers</p>
+      <h2 id="spk-h" class="h2">Speakers and panellists</h2>
+      <ul class="speakers" data-list="speakers"></ul>
+    </section>
+
+    <section id="call" class="dark" aria-labelledby="call-h">
+      <div class="wrap section call">
+        <div class="call-head">
+          <p class="eyebrow eyebrow-accent">Call for oral presentations</p>
+          <h2 id="call-h" class="h2" data-bind="callForTalks.heading"></h2>
+          <p class="lede" data-bind="callForTalks.intro"></p>
+        </div>
+        <div class="cards cards-dark" data-list="callSessions"></div>
+        <div class="call-foot">
+          <a class="btn btn-accent" data-link="talkSubmission" data-label="Submit your talk" href="#">Submit your talk</a>
+          <p>Deadline: <strong data-deadline="talkSubmission"></strong></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="wrap section" aria-labelledby="out-h">
+      <h2 id="out-h" class="h3">What we will leave with</h2>
+      <ol class="outputs" data-list="outputs"></ol>
+    </section>
+
+    <section id="venue" class="wrap section section-tight" aria-labelledby="venue-h">
+      <div class="panel">
+        <div>
+          <h2 id="venue-h" class="h3">Venue</h2>
+          <p><span data-bind="event.host"></span>, <span data-bind="event.city"></span>.</p>
+          <p data-bind="event.venue" data-hide-empty></p>
+        </div>
+        <div>
+          <h2 class="h3">Register</h2>
+          <p data-bind="event.attendance" data-hide-empty></p>
+          <p class="small muted">Registration deadline: <span data-deadline="registration"></span></p>
+          <a class="btn btn-dark" data-link="registration" data-label="Register to attend" href="#">Register to attend</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer-inner">
+      <span>Organised by <span data-bind="event.organiser"></span>.</span>
+      <a data-email="event.contactEmail" hidden></a>
+    </div>
+  </footer>
+
+  <script src="assets/main.js"></script>
+</body>
+</html>
