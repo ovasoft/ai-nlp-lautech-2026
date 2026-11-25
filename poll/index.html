@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Agent Delegation Poll</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* VOICE: a calm research instrument, quick to answer
+   IDEA: a calibration sheet, each domain a gauge the respondent sets
+   PICTURE: the form itself, with a domain rail as progress
+   COLOUR and TYPE: deep sea ground, sky and white, signal pink accent; Hanken Grotesk
+   LAYOUT: one centred column, one step per screen */
+:root{color-scheme:dark;--bg:#0a2540;--panel:#0f2f52;--line:#24507a;--ink:#ffffff;--soft:#b9cde0;--sky:#8fd3ff;--pink:#ff5c8a}
+:root[data-theme=light],:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 "Hanken Grotesk",system-ui,sans-serif;overflow-x:clip;min-height:100vh}
+.wrap{max-width:700px;margin:0 auto;padding:clamp(28px,6vw,64px) max(5vw,16px) 64px}
+header h1{font-weight:300;font-size:clamp(32px,6vw,50px);line-height:1.05;margin:0 0 12px;text-wrap:balance}
+header p{color:var(--soft);margin:0 0 28px;max-width:56ch}
+.rail{display:flex;gap:5px;margin-bottom:10px}
+.seg{flex:1;height:4px;border-radius:2px;background:var(--line);transition:background .3s}
+.seg.done{background:var(--sky)}.seg.on{background:var(--pink)}
+.where{display:flex;justify-content:space-between;gap:12px;color:var(--soft);font-size:14px;margin-bottom:14px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:clamp(20px,4.5vw,40px)}
+.card.enter{animation:in .35s ease-out}
+@keyframes in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+h2{font-size:28px;font-weight:600;line-height:1.15;margin:0 0 6px}
+.lede{color:var(--soft);margin:0}
+.tag{display:inline-block;font-size:13px;color:var(--sky);border:1px solid var(--line);border-radius:99px;padding:2px 10px;margin-bottom:12px}
+.q{margin-top:30px}.q>p{margin:0 0 12px;font-size:17px;font-weight:500}
+.q .n{color:var(--sky);margin-right:6px}
+.scale{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+.gate{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+button{font:inherit;color:inherit;cursor:pointer}
+.opt{min-height:46px;padding:8px 14px;border-radius:10px;border:1px solid var(--line);background:transparent;font-size:15px;transition:background .15s,border-color .15s}
+.opt:hover{border-color:var(--sky)}
+.opt[aria-pressed=true]{background:var(--sky);border-color:var(--sky);color:#0a2540;font-weight:600}
+.row{display:grid;grid-template-columns:minmax(0,9em) minmax(0,1fr);gap:12px;align-items:center;padding:14px 0;border-top:1px solid var(--line)}
+.row:first-of-type{border-top:0}
+.row b{font-weight:600}
+.nav{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:34px;flex-wrap:wrap}
+.btn{min-height:48px;padding:10px 26px;border-radius:12px;border:0;font-weight:600;font-size:16px}
+.btn.go{background:var(--pink);color:#0a2540;margin-left:auto}
+.btn.back{background:transparent;border:1px solid var(--line);color:var(--soft)}
+.err{color:var(--pink);font-size:15px;margin:16px 0 0;min-height:1em}
+:focus-visible{outline:3px solid var(--sky);outline-offset:2px}
+ul.info{padding-left:20px;color:var(--soft);margin:18px 0 0}ul.info li{margin:6px 0}
+.bars{margin-top:22px}
+.bar{display:grid;grid-template-columns:minmax(0,9em) minmax(0,1fr) 3.2em;gap:12px;align-items:center;margin:10px 0}
+.track{height:12px;background:var(--line);border-radius:6px;overflow:hidden}
+.fill{height:100%;background:linear-gradient(90deg,var(--sky),var(--pink));border-radius:6px}
+.bar span:last-child{text-align:right;font-variant-numeric:tabular-nums;color:var(--soft)}
+.note{font-size:14px;color:var(--soft);margin-top:20px}
+footer{color:var(--soft);font-size:13px;margin-top:22px;text-align:center}
+footer a{color:var(--soft)}
+.wrap.wide{max-width:1160px}
+.ctl{display:flex;flex-wrap:wrap;gap:10px;align-items:end;margin-bottom:18px}
+.ctl label{display:flex;flex-direction:column;gap:6px;font-size:14px;color:var(--soft);flex:1 1 240px;max-width:360px}
+.ctl input{font:inherit;font-size:16px;min-height:48px;padding:10px 14px;border-radius:12px;border:1px solid var(--line);background:var(--panel);color:var(--ink)}
+.btn.alt{background:transparent;border:1px solid var(--sky);color:var(--sky)}
+.status{color:var(--soft);font-size:15px;margin:0 0 18px;min-height:1.5em}
+.status.bad{color:var(--pink)}
+.pscroll{overflow-x:auto;margin-bottom:18px;border-radius:16px}
+.plot{background:#fff;border-radius:16px;overflow:hidden}
+.p1{height:580px;min-width:760px}.p2{height:560px;max-width:780px;min-width:620px}
+
+@media(max-width:520px){.scale{grid-template-columns:repeat(2,minmax(0,1fr))}.row{grid-template-columns:1fr}.bar{grid-template-columns:minmax(0,7em) minmax(0,1fr) 3em}}
+@media(prefers-reduced-motion:reduce){.card.enter{animation:none}.seg,.opt{transition:none}}
+</style>
+</head>
+<body>
+<div class="wrap" id="formView">
+  <header>
+    <h1>How far do you let AI agents drive?</h1>
+    <p>A short poll on where you use language-model agents and how much you check their work. About 4 minutes.</p>
+  </header>
+  <div class="rail" id="rail" aria-hidden="true"></div>
+  <div class="where"><span id="where"></span><span id="count"></span></div>
+  <main class="card" id="card" aria-live="polite"></main>
+  <footer>No names or email addresses are collected. · <a href="#results">Results</a></footer>
+</div>
+<div class="wrap wide" id="resultsView" hidden>
+  <header>
+    <h1>Poll results</h1>
+    <p>Enter the results key, then generate the charts from the latest responses. Use the camera icon on a chart to save it as a PNG.</p>
+  </header>
+  <div class="ctl">
+    <label for="rkey">Results key<input id="rkey" type="password" autocomplete="off"></label>
+    <button type="button" class="btn go" id="gen" style="margin-left:0">Generate chart</button>
+    <button type="button" class="btn alt" id="demo">Try with sample data</button>
+  </div>
+  <p class="status" id="rstatus" aria-live="polite"></p>
+  <div class="pscroll"><div class="plot p1" id="plot1" hidden></div></div>
+  <div class="pscroll"><div class="plot p2" id="plot2" hidden></div></div>
+  <footer><a href="#">Back to the questionnaire</a></footer>
+</div>
+<script>
+{
+const ENDPOINT = "https://script.google.com/macros/s/AKfycbyq5yS8HF9N9K0spmbPQgL6p1wN8eS_HJlyMA4p0MR9cU76K67wZB7kx9s81JDR6TkP0w/exec"; // Paste your Google Apps Script web-app URL here (ends in /exec)
+
+const SCALE = ["Never","Sometimes","Often","Always"];
+const D = [
+ {k:"access",name:"Access",req:true,gate:false,intro:"Accounts and permissions you give agents.",q:[
+  "How often do agents you use have write access to your GitHub, GitLab or cloud accounts?",
+  "How often do you let agents act on your email, calendar or messaging?",
+  "How often do you run agents in auto-approve mode, without approving each action?"]},
+ {k:"coding",name:"Coding",req:true,gate:true,q:[
+  "How often do you approve commands an agent requests that you don't fully understand?",
+  "How often do you accept agent-written code without reading it line by line?",
+  "How often do you give only a rough description of the implementation logic and let the agent work out the rest?"]},
+ {k:"lit",name:"Literature research",req:true,gate:true,q:[
+  "How often do you cite a paper an agent found without reading it yourself?",
+  "How often do you rely on an agent's summary of a paper without checking the paper?",
+  "How often do you use references an agent gives you without checking that they exist?"]},
+ {k:"writing",name:"Writing",req:true,gate:true,q:[
+  "How often do you send or submit agent-written text with only light edits?",
+  "How often do you let an agent revise your text without reviewing each change?",
+  "How often do you keep factual claims an agent added to your writing without checking them?"]},
+ {k:"ideation",name:"Ideation",req:true,gate:true,q:[
+  "How often do you pursue an idea mainly because an agent suggested it?",
+  "How often do you accept an agent's judgment that an idea is new without checking the literature?",
+  "How often do you let an agent choose between your candidate research directions?"]},
+ {k:"presentation",name:"Presentation",req:false,q:[
+  "How often do you present agent-generated slides largely as they were produced?",
+  "How often do you let an agent decide the structure or storyline of a talk?",
+  "How often do you present numbers or claims on agent-made slides without checking the source?"]},
+ {k:"analysis",name:"Analysis of results",req:false,q:[
+  "How often do you report a number an agent computed without re-deriving it or checking the code?",
+  "How often do you accept an agent's choice of metric or statistical test?",
+  "How often do you accept an agent's reading of results (“X beats Y”) without looking at the raw outputs?"]},
+ {k:"visualization",name:"Visualization",req:false,q:[
+  "How often do you put an agent-made figure into a paper or talk without checking it against the raw data?",
+  "How often do you use agent plotting code without reading it?",
+  "How often do you let the agent decide what to plot and how (chart type, axes, scales)?"]}
+];
+const OPT = [["answer","I use it — answer"],["not_used","Don’t use"],["skip","Skip"]];
+
+const st = {d:{},opt:{}};
+D.forEach(x=>{st.d[x.k]={status:x.req&&!x.gate?"used":(x.req?null:"skipped"),a:[null,null,null]};if(!x.req)st.opt[x.k]="skip";});
+let i=0,last=-1,busy=false;
+const card=document.getElementById("card");
+const byK=k=>D.find(x=>x.k===k);
+
+let rid;
+try{rid=localStorage.getItem("agentpoll.rid");if(!rid){rid=(crypto.randomUUID?crypto.randomUUID():Date.now().toString(36)+Math.random().toString(36).slice(2));localStorage.setItem("agentpoll.rid",rid);}}
+catch(e){rid=Date.now().toString(36)+Math.random().toString(36).slice(2);}
+
+function steps(){
+  const r=["intro"];
+  D.filter(x=>x.req).forEach(x=>r.push(x.k));
+  r.push("opt");
+  D.filter(x=>!x.req&&st.opt[x.k]==="answer").forEach(x=>r.push(x.k));
+  r.push("review");
+  return r;
+}
+function valid(id){
+  const x=byK(id);if(!x)return true;
+  const d=st.d[id];
+  if(x.gate&&!d.status)return false;
+  if(d.status==="used")return d.a.every(v=>v!==null);
+  return true;
+}
+const btn=(id,act,attrs,label,on)=>`<button type="button" class="opt" id="${id}" data-act="${act}" ${attrs} aria-pressed="${on?"true":"false"}">${label}</button>`;
+
+function qBlock(x){
+  const d=st.d[x.k];
+  return x.q.map((q,qi)=>`<div class="q" role="group" aria-label="Question ${qi+1}"><p><span class="n">${qi+1}.</span>${q}</p><div class="scale">${
+    SCALE.map((s,v)=>btn(`a-${x.k}-${qi}-${v}`,"ans",`data-q="${qi}" data-v="${v}"`,s,d.a[qi]===v)).join("")}</div></div>`).join("");
+}
+function view(id){
+  if(id==="intro")return `<span class="tag">Welcome</span><h2>Before you start</h2>
+    <p class="lede">This poll maps two things: which kinds of work you hand to AI agents, and how much you let them act without checking.</p>
+    <ul class="info"><li>Required: Access, Coding, Literature research, Writing, Ideation.</li><li>Optional: Presentation, Analysis of results, Visualization.</li><li>If you don’t use agents for a domain, say so and that section is skipped.</li><li>There are no right answers. Please answer for how you actually work.</li></ul>`;
+  if(id==="opt")return `<span class="tag">Optional</span><h2>Three more domains</h2><p class="lede">Answer any that apply. Choosing “Don’t use” also helps the results.</p><div style="margin-top:22px">`+
+    D.filter(x=>!x.req).map(x=>`<div class="row"><b>${x.name}</b><div class="chips">${OPT.map(([v,l])=>btn(`o-${x.k}-${v}`,"opt",`data-k="${x.k}" data-v="${v}"`,l,st.opt[x.k]===v)).join("")}</div></div>`).join("")+`</div>`;
+  if(id==="review"){
+    const lab={used:"Answered",not_used:"Don’t use",skipped:"Skipped"};
+    return `<span class="tag">Last step</span><h2>Ready to submit</h2><p class="lede">Go back to change anything.</p><div style="margin-top:22px">`+
+      D.map(x=>`<div class="row"><b>${x.name}</b><span style="color:var(--soft)">${lab[st.d[x.k].status]||"—"}</span></div>`).join("")+`</div>`;
+  }
+  const x=byK(id),d=st.d[id];
+  let h=`<span class="tag">${x.req?"Required":"Optional"}</span><h2>${x.name}</h2>`+(x.intro?`<p class="lede">${x.intro}</p>`:"");
+  if(x.gate){
+    h+=`<div class="q"><p>Do you use agents for ${x.name.toLowerCase()}?</p><div class="gate">${
+      btn(`g-${id}-y`,"gate",'data-v="used"',"Yes",d.status==="used")+btn(`g-${id}-n`,"gate",'data-v="not_used"',"No",d.status==="not_used")}</div></div>`;
+    if(d.status==="used")h+=qBlock(x);
+  } else h+=qBlock(x);
+  return h;
+}
+function render(){
+  const S=steps();if(i>=S.length)i=S.length-1;
+  const id=S[i];
+  const prog=S.slice(1);
+  document.getElementById("rail").innerHTML=prog.map((s,k)=>`<div class="seg ${k+1<i?"done":k+1===i?"on":""}"></div>`).join("");
+  const x=byK(id);
+  document.getElementById("where").textContent=x?x.name:id==="intro"?"Introduction":id==="opt"?"Optional domains":"Review";
+  document.getElementById("count").textContent=i>0?`Step ${i} of ${prog.length}`:"";
+  const go=id==="intro"?"Start":id==="review"?(busy?"Sending…":"Submit"):"Next";
+  card.innerHTML=view(id)+`<p class="err" id="err"></p><div class="nav">${i>0?'<button type="button" class="btn back" data-act="back">Back</button>':""}<button type="button" class="btn go" data-act="next" ${busy?"disabled":""}>${go}</button></div>`;
+  if(last!==i){card.classList.remove("enter");void card.offsetWidth;card.classList.add("enter");last=i;}
+}
+function payload(){
+  const p={respondent_id:rid,submitted_at:new Date().toISOString()};
+  D.forEach(x=>{const d=st.d[x.k],u=d.status==="used";
+    p[x.k+"_status"]=d.status||"";
+    d.a.forEach((v,qi)=>p[`${x.k}_q${qi+1}`]=u?v:"");
+    p[x.k+"_score"]=u?Math.round(d.a.reduce((s,v)=>s+v,0)/9*1000)/1000:"";});
+  return p;
+}
+function done(mode){
+  const p=payload();
+  const used=D.filter(x=>st.d[x.k].status==="used");
+  document.getElementById("rail").innerHTML="";document.getElementById("where").textContent="Done";document.getElementById("count").textContent="";
+  card.innerHTML=`<span class="tag">${mode==="preview"?"Preview — not recorded":"Submitted"}</span><h2>Thank you</h2>
+   <p class="lede">Here is your profile: 0% means you check everything yourself, 100% means you let the agent act without checking.</p>
+   <div class="bars">${used.map(x=>{const v=p[x.k+"_score"]*100;return `<div class="bar"><span>${x.name}</span><div class="track"><div class="fill" style="width:${v}%"></div></div><span>${Math.round(v)}%</span></div>`;}).join("")||'<p class="note">You didn’t answer any domain questions.</p>'}</div>
+   ${mode==="preview"?'<p class="note">This copy has no response endpoint set, so nothing was saved.</p>':'<p class="note">You can close this page.</p>'}`;
+  card.classList.remove("enter");void card.offsetWidth;card.classList.add("enter");
+  window.scrollTo({top:0});
+}
+async function submit(){
+  if(!ENDPOINT){done("preview");return;}
+  busy=true;render();
+  try{
+    await fetch(ENDPOINT,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(payload())});
+    busy=false;done("ok");
+  }catch(e){
+    busy=false;render();
+    document.getElementById("err").textContent="Couldn’t send your response. Check your connection and try again.";
+  }
+}
+card.addEventListener("click",e=>{
+  const b=e.target.closest("[data-act]");if(!b||busy)return;
+  const S=steps(),id=S[i],act=b.dataset.act,fid=b.id;
+  if(act==="back"){i=Math.max(0,i-1);render();window.scrollTo({top:0});return;}
+  if(act==="next"){
+    if(!valid(id)){document.getElementById("err").textContent="Please answer every question on this page to continue.";return;}
+    if(id==="review"){submit();return;}
+    i++;render();window.scrollTo({top:0});return;
+  }
+  if(act==="gate")st.d[id].status=b.dataset.v;
+  if(act==="ans")st.d[id].a[+b.dataset.q]=+b.dataset.v;
+  if(act==="opt"){const k=b.dataset.k,v=b.dataset.v;st.opt[k]=v;st.d[k].status=v==="answer"?"used":v==="not_used"?"not_used":"skipped";}
+  render();
+  if(fid){const f=document.getElementById(fid);if(f)f.focus({preventScroll:true});}
+});
+render();
+
+/* ---------- Results ---------- */
+const DOT="#2a7fb8",MEAN="#0a2540";
+const USAGE=D.filter(x=>x.k!=="access");
+const rs=document.getElementById("rstatus"),keyIn=document.getElementById("rkey");
+try{keyIn.value=localStorage.getItem("agentpoll.key")||"";}catch(e){}
+const say=(t,bad)=>{rs.textContent=t;rs.className="status"+(bad?" bad":"");};
+
+function route(){
+  const r=location.hash==="#results";
+  document.getElementById("formView").hidden=r;
+  document.getElementById("resultsView").hidden=!r;
+  window.scrollTo({top:0});
+}
+window.addEventListener("hashchange",route);route();
+
+let plotlyP=null;
+function loadPlotly(){
+  if(window.Plotly)return Promise.resolve();
+  if(!plotlyP)plotlyP=new Promise((ok,no)=>{const s=document.createElement("script");s.src="https://cdn.plot.ly/plotly-2.35.2.min.js";s.onload=ok;s.onerror=()=>no(new Error("Chart library failed to load."));document.head.appendChild(s);});
+  return plotlyP;
+}
+function rng(seed){return()=>{seed=(seed*1664525+1013904223)%4294967296;return seed/4294967296;};}
+const num=v=>v===""||v===null||v===undefined?NaN:Number(v);
+
+function clean(rows){
+  const m=new Map();
+  rows.slice().sort((a,b)=>String(a.submitted_at).localeCompare(String(b.submitted_at)))
+    .forEach((r,ix)=>m.set(r.respondent_id||("row"+ix),r));
+  return [...m.values()];
+}
+function sample(n){
+  const R=rng(7),rows=[];
+  for(let j=0;j<n;j++){
+    const p={respondent_id:"s"+j,submitted_at:"2026-11-"+String(10+j%15).padStart(2,"0")};
+    const lean=R()*0.6;
+    D.forEach((x,ix)=>{
+      const st=x.k==="access"?"used":R()<(ix<5?0.65:0.45)?"used":(x.req?"not_used":(R()<0.5?"not_used":"skipped"));
+      p[x.k+"_status"]=st;
+      p[x.k+"_score"]=st==="used"?Math.round([0,1,2].reduce(s=>s+Math.min(3,Math.floor((R()*0.7+lean)*4)),0)/9*1000)/1000:"";
+    });
+    rows.push(p);
+  }
+  return rows;
+}
+function draw(rows,label){
+  rows=clean(rows);
+  const P1=document.getElementById("plot1"),P2=document.getElementById("plot2");
+  if(!rows.length){say("No responses yet.");P1.hidden=P2.hidden=true;return;}
+  P1.hidden=P2.hidden=false;
+  const R=rng(1),font={family:"Hanken Grotesk, system-ui, sans-serif",color:"#1a2633",size:13};
+
+  /* Chart 1: per-domain dots + mean line */
+  const st=D.map(x=>{const v=rows.filter(r=>r[x.k+"_status"]==="used").map(r=>({y:num(r[x.k+"_score"])})).filter(o=>!isNaN(o.y));
+    const n=v.length,m=n?v.reduce((s,o)=>s+o.y,0)/n:NaN,sd=n>1?Math.sqrt(v.reduce((s,o)=>s+(o.y-m)**2,0)/(n-1)):0;
+    return {v,n,m,ci:n>1?1.96*sd/Math.sqrt(n):0};});
+  const t1=[(()=>{const x=[],y=[];st.forEach((s,i)=>s.v.forEach(o=>{x.push(i+(R()-0.5)*0.36);y.push(o.y);}));
+    return {type:"scatter",mode:"markers",x,y,name:"Respondent",marker:{color:DOT,size:8,opacity:0.4,line:{color:"#fff",width:1}},hovertemplate:"%{y:.2f}<extra></extra>"};})()];
+  const ui=USAGE.map((_,j)=>j+1).filter(i=>st[i].n>0);
+  const lab=i=>st[i].m.toFixed(2);
+  t1.push({type:"scatter",mode:"lines+markers+text",name:"Mean (±95% CI)",x:ui,y:ui.map(i=>st[i].m),text:ui.map(lab),textposition:"top right",textfont:{color:MEAN,size:13},
+    line:{color:MEAN,width:3},marker:{color:MEAN,size:11},error_y:{type:"data",array:ui.map(i=>st[i].ci),visible:true,color:MEAN,thickness:2,width:6},hovertemplate:"mean %{y:.2f}<extra></extra>"});
+  if(st[0].n)t1.push({type:"scatter",mode:"markers+text",showlegend:false,x:[0],y:[st[0].m],text:[lab(0)],textposition:"top right",textfont:{color:MEAN,size:13},
+    marker:{color:MEAN,size:13,symbol:"diamond"},error_y:{type:"data",array:[st[0].ci],visible:true,color:MEAN,thickness:2,width:6},hovertemplate:"mean %{y:.2f}<extra></extra>"});
+  const l1={font,title:{text:"How much respondents let agents act unchecked, by domain",x:0.02,font:{size:17}},
+    paper_bgcolor:"#fff",plot_bgcolor:"#fff",margin:{l:78,r:24,t:70,b:110},
+    xaxis:{tickvals:D.map((_,i)=>i),ticktext:D.map((x,i)=>x.name.replace(" ","<br>")+"<br><span style='color:#667'>n="+st[i].n+"</span>"),range:[-0.5,D.length-0.5],showgrid:false,zeroline:false},
+    yaxis:{range:[-0.04,1.08],title:{text:"Delegation (0 = always checks, 1 = never)",standoff:12},gridcolor:"#eee",zeroline:false},
+    shapes:[{type:"line",x0:0.5,x1:0.5,y0:0,y1:1,yref:"paper",line:{color:"#ddd",width:1}}],
+    legend:{orientation:"h",y:-0.28,x:0.5,xanchor:"center"},hovermode:"closest"};
+
+  /* Chart 2: breadth vs depth */
+  const pts=rows.map(r=>{const u=USAGE.filter(x=>r[x.k+"_status"]==="used"&&!isNaN(num(r[x.k+"_score"])));
+    return {b:u.length/USAGE.length,d:u.length?u.reduce((s,x)=>s+num(r[x.k+"_score"]),0)/u.length:NaN};}).filter(p=>!isNaN(p.d));
+  const t2=[{type:"scatter",mode:"markers",name:"Respondent",showlegend:false,x:pts.map(p=>p.b+(R()-0.5)*0.03),y:pts.map(p=>p.d),marker:{color:DOT,size:10,opacity:0.75,line:{color:"#fff",width:1}},hovertemplate:"breadth %{x:.2f}<br>depth %{y:.2f}<extra></extra>"}];
+  const corner=(x,y,t)=>({x,y,xref:"paper",yref:"paper",text:t,showarrow:false,font:{color:"#8a94a0",size:13},xanchor:x<0.5?"left":"right",yanchor:y<0.5?"bottom":"top"});
+  const l2={font,title:{text:`Breadth vs depth of agent use (n=${pts.length})`,x:0.03,font:{size:17}},
+    paper_bgcolor:"#fff",plot_bgcolor:"#fff",margin:{l:78,r:24,t:70,b:110},
+    xaxis:{range:[-0.04,1.04],title:{text:`Breadth: share of the ${USAGE.length} usage domains used`},gridcolor:"#f2f2f2",zeroline:false},
+    yaxis:{range:[-0.04,1.04],title:{text:"Depth: mean delegation over domains used",standoff:12},gridcolor:"#f2f2f2",zeroline:false},
+    shapes:[{type:"line",x0:0.5,x1:0.5,y0:0,y1:1,yref:"paper",line:{color:"#ccc"}},{type:"line",y0:0.5,y1:0.5,x0:0,x1:1,xref:"paper",line:{color:"#ccc"}}],
+    annotations:[corner(0.01,0.99,"Specialist delegators"),corner(0.99,0.99,"Autopilot"),corner(0.01,0.01,"Occasional / skeptical"),corner(0.99,0.01,"Supervised power users")],
+    legend:{orientation:"h",y:-0.22,x:0.5,xanchor:"center"}};
+
+  const cfg=f=>({responsive:true,displaylogo:false,toImageButtonOptions:{format:"png",scale:2,filename:f}});
+  Plotly.react("plot1",t1,l1,cfg("agent_delegation_by_domain"));
+  Plotly.react("plot2",t2,l2,cfg("agent_breadth_vs_depth"));
+  say(`${rows.length} respondent${rows.length===1?"":"s"}${label?" · "+label:""}. Updated ${new Date().toLocaleTimeString()}.`);
+}
+async function generate(demo){
+  const g=document.getElementById("gen"),d=document.getElementById("demo");
+  g.disabled=d.disabled=true;
+  try{
+    say(demo?"Drawing sample data…":"Loading responses…");
+    await loadPlotly();
+    if(demo){draw(sample(60),"sample data, not real responses");return;}
+    if(!ENDPOINT){say("No response endpoint is set in this copy of the page. Try the sample data instead.",true);return;}
+    const k=keyIn.value.trim();
+    if(!k){say("Enter the results key first.",true);return;}
+    try{localStorage.setItem("agentpoll.key",k);}catch(e){}
+    const res=await fetch(ENDPOINT+"?key="+encodeURIComponent(k));
+    const j=await res.json();
+    if(!j.ok){say(j.error==="bad key"?"That key isn’t right.":"The sheet returned an error: "+String(j.error||"unknown"),true);return;}
+    draw(Array.isArray(j.rows)?j.rows:[]);
+  }catch(e){say("Couldn’t load responses: "+(e.message||"network error")+".",true);}
+  finally{g.disabled=d.disabled=false;}
+}
+document.getElementById("gen").addEventListener("click",()=>generate(false));
+document.getElementById("demo").addEventListener("click",()=>generate(true));
+keyIn.addEventListener("keydown",e=>{if(e.key==="Enter")generate(false);});
+}
+</script>
+</body>
+</html>
