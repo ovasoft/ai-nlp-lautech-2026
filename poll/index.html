@@ -338,6 +338,22 @@ function draw(rows,label){
   Plotly.react("plot2",t2,l2,cfg("agent_breadth_vs_depth"));
   say(`${rows.length} respondent${rows.length===1?"":"s"}${label?" · "+label:""}. Updated ${new Date().toLocaleTimeString()}.`);
 }
+function jsonp(url){
+  return new Promise((ok,no)=>{
+    const name="agentpoll_cb_"+Date.now()+"_"+Math.floor(Math.random()*1e6),s=document.createElement("script");
+    const end=()=>{clearTimeout(t);try{delete window[name];}catch(e){window[name]=undefined;}s.remove();};
+    const t=setTimeout(()=>{end();no(new Error("the response sheet did not answer. Check that the latest Code.gs is deployed as a new version"));},20000);
+    window[name]=d=>{end();ok(d);};
+    s.onerror=()=>{end();no(new Error("the response sheet could not be reached"));};
+    s.src=url+"&callback="+name;
+    document.head.appendChild(s);
+  });
+}
+async function getRows(k){
+  const url=ENDPOINT+"?key="+encodeURIComponent(k);
+  try{const res=await fetch(url);return await res.json();}
+  catch(e){return await jsonp(url);}
+}
 async function generate(demo){
   const g=document.getElementById("gen"),d=document.getElementById("demo");
   g.disabled=d.disabled=true;
@@ -349,8 +365,7 @@ async function generate(demo){
     const k=keyIn.value.trim();
     if(!k){say("Enter the results key first.",true);return;}
     try{localStorage.setItem("agentpoll.key",k);}catch(e){}
-    const res=await fetch(ENDPOINT+"?key="+encodeURIComponent(k));
-    const j=await res.json();
+    const j=await getRows(k);
     if(!j.ok){say(j.error==="bad key"?"That key isn’t right.":"The sheet returned an error: "+String(j.error||"unknown"),true);return;}
     draw(Array.isArray(j.rows)?j.rows:[]);
   }catch(e){say("Couldn’t load responses: "+(e.message||"network error")+".",true);}
